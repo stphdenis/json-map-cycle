@@ -1,7 +1,7 @@
 {
   "name": "json-map-cycle",
-  "version": "0.0.2",
-  "description": "Json with Map, Set, Date and retrocycle",
+  "version": "0.0.3",
+  "description": "Json with Map, Set, Date and cycle",
   "keywords": [
     "JSON",
     "Map",
@@ -19,12 +19,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/stphdenis/json-map-retrocycle.git"
+    "url": "http://github.com/stphdenis/json-map-cycle.git"
   },
   "license": "MIT",
-  "homepage": "http://github.com/stphdenis/json-map-retrocycle",
+  "homepage": "http://github.com/stphdenis/json-map-cycle",
   "bugs": {
-    "url": "http://github.com/stphdenis/json-map-retrocycle/issues"
+    "url": "http://github.com/stphdenis/json-map-cycle/issues"
   },
   "sideEffects": false,
   "files": [
