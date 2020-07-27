@@ -2,7 +2,7 @@
 
 JSON library with `parse` and `stringify` for `Map`, `Set`, `Date`, `comments` (remove only) and manage `cycle`.
 
-Use the default `JSON` package an has exactly the same signature than `JSON` from `Node`.
+Use the default `JSON` package an has exactly the same signature.
 
 `replacer` and `reviver` can still be used.
 
