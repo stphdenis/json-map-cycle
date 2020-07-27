@@ -78,6 +78,7 @@ interface ParseOptions {
    */
   dateType?: "String"|"Date"
 
+  removeComments: boolean
   retrocycle: boolean
 }
 interface StringifyOptions {
@@ -113,6 +114,7 @@ const defaultJsonOptions: Options = {
     mapStringKeys: null,
     mapRegexKeys: null,
 
+    removeComments: true,
     retrocycle: true,
   },
   stringify: {
@@ -143,6 +145,8 @@ export class Json {
   }
 
   #options: Options
+  #removeComments = /\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g
+
   constructor(options?: JsonOptions) {
     this.#options = defaultJsonOptions
     if (options) {
@@ -214,8 +218,15 @@ export class Json {
     return replacer
   }
 
-
   parse(text: string, reviver?: Reviver) {
+    if (this.#options.parse.removeComments) {
+      const textNoComment = text.replace(this.#removeComments, (m, g) => g ? "" : m)
+      return this.parseWithoutComments(textNoComment, reviver)
+    }
+    return this.parseWithoutComments(text, reviver)
+  }
+  
+  private parseWithoutComments(text: string, reviver?: Reviver) {
     if (this.#options.parse.retrocycle) {
       return cycle.retrocycle(JSON.parse(text, this.reviver(reviver)))
     } else {

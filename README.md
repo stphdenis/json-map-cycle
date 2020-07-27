@@ -1,6 +1,6 @@
 # json-map-cycle
 
-JSON library with parse and stringify for `Map`, `Set`, `Date` and `cycle`.
+JSON library with `parse` and `stringify` for `Map`, `Set`, `Date`, `comments` (remove only) and manage `cycle`.
 
 Use the default `JSON` package an has exactly the same signature than `JSON` from `Node`.
 
@@ -33,7 +33,12 @@ Can `decycle` the parsed object with `$ref` keys (off by default).
 
 ## parse
 
-Parse a `new Map()` from 
+Remove comments by default
+
+- // ...
+- /\* ... \*/
+
+Parse a `new Map()` from
 
 - `{ anyKey: { "$map": [...] } }`
 - `{ knownMapKeys: [...] }`
@@ -77,5 +82,5 @@ import { Json } from 'json-map-cycle'
 const json = new Json({
   ...opions...
 })
-const jsonApiSchema = json.stringify(apiSchema, null, 2)
+const apiSchema = Json.parse(jsonApiSchema)
 ```
