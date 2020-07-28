@@ -43,12 +43,21 @@ class Json {
         Object.assign(__classPrivateFieldGet(this, _options).parse, options.parse);
     }
     stringify(value, replacer, space) {
+        let data;
         if (__classPrivateFieldGet(this, _options).stringify.decycle) {
-            return JSON.stringify(cycle.decycle(value), this.replacer(replacer), space);
+            data = JSON.stringify(cycle.decycle(value), this.replacer(replacer), space);
         }
         else {
-            return JSON.stringify(value, this.replacer(replacer), space);
+            data = JSON.stringify(value, this.replacer(replacer), space);
         }
+        if (replacer && data === undefined) {
+            throw new Error(`A replacer must always return a value :
+procedure replace(this, key, value) {
+  ...
+  return value
+}`);
+        }
+        return data;
     }
     replacer(replace) {
         const that = this;
