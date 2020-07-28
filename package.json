@@ -48,6 +48,7 @@
   "prettier": {
     "semi": false,
     "singleQuote": true,
+    "spaces": 2,
     "trailingComma": "all"
   }
 }
