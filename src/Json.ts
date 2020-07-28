@@ -38,11 +38,20 @@ export class Json {
   }
 
   stringify(value: any, replacer?: Replacer|null, space?: string|number): string {
+    let data: string
     if (this.#options.stringify.decycle) {
-      return JSON.stringify(cycle.decycle(value), this.replacer(replacer), space)
+      data = JSON.stringify(cycle.decycle(value), this.replacer(replacer), space)
     } else {
-      return JSON.stringify(value, this.replacer(replacer), space)
+      data = JSON.stringify(value, this.replacer(replacer), space)
     }
+    if (replacer && data === undefined) {
+      throw new Error(`A replacer must always return a value :
+procedure replace(this, key, value) {
+  ...
+  return value
+}`);
+    }
+    return data
   }
 
   private replacer(replace?: Replacer|null): (this: any, key: string, value: any) => any {
@@ -103,7 +112,7 @@ export class Json {
     }
     return this.parseWithoutComments(text, reviver)
   }
-  
+
   private parseWithoutComments(text: string, reviver?: Reviver) {
     if (this.#options.parse.retrocycle) {
       return cycle.retrocycle(JSON.parse(text, this.reviver(reviver)))
@@ -123,11 +132,11 @@ export class Json {
         if (options.setSchema === '$set' && value['$set']) return new Set(value['$set'])
         if (options.setStringKeys?.includes(key)) return new Set(value)
         if (options.setRegexKeys?.test(key)) return new Set(value)
-  
+
         if (options.mapSchema === '$map' && value['$map']) return new Map(value['$map'])
         if (options.mapStringKeys?.includes(key)) return new Map(value)
         if (options.mapRegexKeys?.test(key)) return new Map(value)
-  
+
         if (options.dateType === 'Date') {
           if (options.dateSchema.includes('$date') && value['$date']) {
             return new Date(value['$date'])
