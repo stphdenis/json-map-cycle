@@ -14,21 +14,21 @@
     "comments",
     "typecript"
   ],
-  "main": "dist",
-  "types": "dist",
+  "license": "MIT",
   "author": {
     "name": "DENIS Stéphane",
     "email": "stph.denis@gmail.com"
   },
+  "homepage": "http://github.com/stphdenis/json-map-cycle",
   "repository": {
     "type": "git",
     "url": "http://github.com/stphdenis/json-map-cycle.git"
   },
-  "license": "MIT",
-  "homepage": "http://github.com/stphdenis/json-map-cycle",
   "bugs": {
     "url": "http://github.com/stphdenis/json-map-cycle/issues"
   },
+  "main": "dist",
+  "types": "dist",
   "sideEffects": false,
   "files": [
     "dist"
@@ -48,7 +48,6 @@
   "prettier": {
     "semi": false,
     "singleQuote": true,
-    "spaces": 2,
     "trailingComma": "all"
   }
 }
