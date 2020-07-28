@@ -1,11 +1,17 @@
 {
   "name": "json-map-cycle",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Json with Map, Set, Date and cycle",
   "keywords": [
-    "json", "map", "set", "date",
-    "cycle", "stringify", "parse",
-    "comment", "comments",
+    "json",
+    "map",
+    "set",
+    "date",
+    "cycle",
+    "stringify",
+    "parse",
+    "comment",
+    "comments",
     "typecript"
   ],
   "main": "dist",
