@@ -12,36 +12,19 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     }
     return privateMap.get(receiver);
 };
-var _options;
+var _options, _removeComments;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Json = void 0;
 const cycle = require("cycle");
-const defaultJsonOptions = {
-    parse: {
-        dateSchema: ['$date', 'JSON&UTC'],
-        dateStringKeys: null,
-        dateRegexKeys: null,
-        dateType: "Date",
-        setSchema: '$set',
-        setStringKeys: null,
-        setRegexKeys: null,
-        mapSchema: '$map',
-        mapStringKeys: null,
-        mapRegexKeys: null,
-        retrocycle: true,
-    },
-    stringify: {
-        dateSchema: false,
-        dateFormat: 'JSON',
-        setSchema: '$set',
-        mapSchema: '$map',
-        decycle: false,
-    },
-};
+const jsonDefaultOptions_1 = require("./jsonDefaultOptions");
 class Json {
     constructor(options) {
         _options.set(this, void 0);
-        __classPrivateFieldSet(this, _options, defaultJsonOptions);
+        _removeComments.set(this, /\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g);
+        __classPrivateFieldSet(this, _options, {
+            stringify: Object.assign({}, jsonDefaultOptions_1.jsonDefaultOptions.stringify),
+            parse: Object.assign({}, jsonDefaultOptions_1.jsonDefaultOptions.parse),
+        });
         if (options) {
             this.setOptions(options);
         }
@@ -56,8 +39,8 @@ class Json {
         return this._json.stringify(value, replacer, space);
     }
     setOptions(options) {
-        Object.assign(__classPrivateFieldGet(this, _options).parse, options.parse);
         Object.assign(__classPrivateFieldGet(this, _options).stringify, options.stringify);
+        Object.assign(__classPrivateFieldGet(this, _options).parse, options.parse);
     }
     stringify(value, replacer, space) {
         if (__classPrivateFieldGet(this, _options).stringify.decycle) {
@@ -122,6 +105,13 @@ class Json {
         return replacer;
     }
     parse(text, reviver) {
+        if (__classPrivateFieldGet(this, _options).parse.removeComments) {
+            const textNoComment = text.replace(__classPrivateFieldGet(this, _removeComments), (m, g) => g ? "" : m);
+            return this.parseWithoutComments(textNoComment, reviver);
+        }
+        return this.parseWithoutComments(text, reviver);
+    }
+    parseWithoutComments(text, reviver) {
         if (__classPrivateFieldGet(this, _options).parse.retrocycle) {
             return cycle.retrocycle(JSON.parse(text, this.reviver(reviver)));
         }
@@ -186,5 +176,5 @@ class Json {
     }
 }
 exports.Json = Json;
-_options = new WeakMap();
+_options = new WeakMap(), _removeComments = new WeakMap();
 Json._json = new Json();

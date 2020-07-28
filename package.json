@@ -3,12 +3,10 @@
   "version": "0.1.1",
   "description": "Json with Map, Set, Date and cycle",
   "keywords": [
-    "JSON",
-    "Map",
-    "Set",
-    "Date",
-    "cycle",
-    "Typecript"
+    "json", "map", "set", "date",
+    "cycle", "stringify", "parse",
+    "comment", "comments",
+    "typecript"
   ],
   "main": "dist",
   "types": "dist",
