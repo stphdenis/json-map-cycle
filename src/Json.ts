@@ -67,17 +67,17 @@ Verify your 'replacer' return a 'value' like this :
       if (value instanceof Set) {
         if (options.setSchema === '$set') {
           return { $set: [...value] }
-        } else { // options.setSchema === 'array'
+        } else { // options.setSchema === false
           return [...value]
         }
-      }
+      } else
       if (value instanceof Map) {
         if (options.mapSchema === '$map') {
           return { $map: [...value] }
-        } else { // options.mapSchema === 'array'
+        } else { // options.mapSchema === false
           return [...value]
         }
-      }
+      } else
       if (value instanceof Date) {
         if (options.dateSchema === '$date') {
           if (options.dateFormat === 'JSON') {
@@ -141,7 +141,7 @@ Verify your 'replacer' return a 'value' like this :
         if (options.mapRegexKeys?.test(key)) return new Map(value)
 
         if (options.dateType === 'Date') {
-          if (options.dateSchema.includes('$date') && value['$date']) {
+          if (options.dateSchema?.includes('$date') && value['$date']) {
             return new Date(value['$date'])
           }
           if (options.dateStringKeys?.includes(key)) {
@@ -151,13 +151,13 @@ Verify your 'replacer' return a 'value' like this :
             return new Date(value)
           }
           // YYYY-MM-DDTHH:mm:ss.sssZ | Ddd, JJ Mmm YYYY HH:mm:ss GMT
-          if (options.dateSchema.includes('JSON&UTC') &&
+          if (options.dateSchema?.includes('JSON&UTC') &&
             /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$|^[A-Z][a-z]{2}, \d{2} [A-Z][a-z]{2} \d{4} \d{2}:\d{2}:\d{2} GMT$/.test(value)
           ) {
             return new Date(value)
           }
         } else {
-          if (options.dateSchema.includes('$date') && value['$date']) {
+          if (options.dateSchema?.includes('$date') && value['$date']) {
             return value['$date']
           }
         }

@@ -4,8 +4,8 @@ export interface JsonOptions {
 }
 
 export interface StringifyOptions {
-  setSchema?: '$set'|'array'
-  mapSchema?: '$map'|'array'
+  setSchema?: '$set'|false
+  mapSchema?: '$map'|false
   dateSchema?: '$date'|false
   dateFormat?: 'JSON' // ISO 8601 (YYYY-MM-DDTHH:mm:ss.sssZ)
              | 'UTC', // "HTTP-date" from RFC 7231 (Ddd, JJ Mmm YYYY HH:mm:ss GMT)
@@ -64,7 +64,7 @@ export interface ParseOptions {
    *
    * default: ['$date', 'JSON&UTC']
    */
-  dateSchema?: ('$date'|'JSON&UTC')[]
+  dateSchema?: ('$date'|'JSON&UTC')[]|null
   /**
    * Keys to consider a value as a Date.
    *
@@ -88,7 +88,7 @@ export interface ParseOptions {
    *
    * Parse to `{ "anyKey": "..." }`
    */
-  dateType?: "String"|"Date"
+  dateType?: "Date"|"String"
 
   removeComments?: boolean
   retrocycle?: boolean
