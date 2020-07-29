@@ -45,11 +45,14 @@ export class Json {
       data = JSON.stringify(value, this.replacer(replacer), space)
     }
     if (replacer && data === undefined) {
-      throw new Error(`A replacer must always return a value :
-procedure replace(this, key, value) {
-  ...
-  return value
-}`);
+      throw new Error(`A replacer must always return a value
+
+Verify your 'replacer' return a 'value' like this :
+|  procedure replace(this, key, value) {
+|   ...
+|    return value
+|  }
+`);
     }
     return data
   }
