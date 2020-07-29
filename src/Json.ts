@@ -2,6 +2,7 @@ import * as cycle from 'cycle'
 import { JsonOptions } from './JsonOptions'
 import { Options } from './Options'
 import { jsonDefaultOptions } from './jsonDefaultOptions'
+import { internalReviver } from './internalReviver'
 
 type Reviver = (this: any, key: string, value: any) => any
 type Replacer = (this: any, key: string, value: any) => any
@@ -124,56 +125,17 @@ Verify your 'replacer' return a 'value' like this :
     }
   }
 
-  private reviver(revive?: Reviver): Reviver {
-    const that = this
-    function reviver(this: any, key: string, value: any) {
-      if (key && value &&
-        typeof value === 'object' &&
-        value instanceof Array === false
-      ) {
-        const options = that.#options.parse
-        if (options.setSchema === '$set' && value['$set']) return new Set(value['$set'])
-        if (options.setStringKeys?.includes(key)) return new Set(value)
-        if (options.setRegexKeys?.test(key)) return new Set(value)
-
-        if (options.mapSchema === '$map' && value['$map']) return new Map(value['$map'])
-        if (options.mapStringKeys?.includes(key)) return new Map(value)
-        if (options.mapRegexKeys?.test(key)) return new Map(value)
-
-        if (options.dateType === 'Date') {
-          if (options.dateSchema?.includes('$date') && value['$date']) {
-            return new Date(value['$date'])
-          }
-          if (options.dateStringKeys?.includes(key)) {
-            return new Date(value)
-          }
-          if (options.dateRegexKeys?.test(key)) {
-            return new Date(value)
-          }
-          // YYYY-MM-DDTHH:mm:ss.sssZ | Ddd, JJ Mmm YYYY HH:mm:ss GMT
-          if (options.dateSchema?.includes('JSON&UTC') &&
-            /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$|^[A-Z][a-z]{2}, \d{2} [A-Z][a-z]{2} \d{4} \d{2}:\d{2}:\d{2} GMT$/.test(value)
-          ) {
-            return new Date(value)
-          }
-        } else {
-          if (options.dateSchema?.includes('$date') && value['$date']) {
-            return value['$date']
-          }
-        }
-      }
-      return value
-    }
-
-    if (revive) {
+  private reviver(reviver?: Reviver): Reviver {
+    const iReviver = internalReviver(this.#options.parse)
+    if (reviver) {
       return function reviverHelper(this: any, key: string, value: any) {
-        const data = revive.call(this, key, value)
+        const data = reviver.call(this, key, value)
         if (data !== value) {
           return data
         }
-        return reviver.call(this, key, value)
+        return iReviver.call(this, key, value)
       }
     }
-    return reviver
+    return iReviver
   }
 }
