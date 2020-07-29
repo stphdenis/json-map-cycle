@@ -1,6 +1,6 @@
 {
   "name": "json-map-cycle",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Json with Map, Set, Date and cycle",
   "keywords": [
     "json",
