@@ -49,7 +49,7 @@ export class Json {
 
 Verify your 'replacer' return a 'value' like this :
 |  procedure replace(this, key, value) {
-|   ...
+|    /*...*/
 |    return value
 |  }
 `);
