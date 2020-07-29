@@ -1,6 +1,6 @@
 {
   "name": "json-map-cycle",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Json with Map, Set, Date and cycle",
   "keywords": [
     "json",
@@ -44,7 +44,8 @@
   },
   "scripts": {
     "build": "yarn tsc",
-    "npm": "yarn build && yarn publish"
+    "npm": "yarn build && yarn publish",
+    "prepublish": "yarn tsc"
   },
   "prettier": {
     "semi": false,
