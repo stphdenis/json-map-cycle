@@ -44,7 +44,6 @@
   },
   "scripts": {
     "build": "yarn tsc",
-    "npm": "yarn build && yarn publish",
     "prepublish": "yarn tsc"
   },
   "prettier": {
